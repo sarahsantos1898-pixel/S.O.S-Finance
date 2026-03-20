@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S.O.S-FINANCE - Cadastro</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            width: 100%;
+            max-width: 450px;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo h1 {
+            font-size: 32px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .logo span {
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .logo p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e1e1e1;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s;
+            background: #f8f9fa;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+        }
+
+        input.error {
+            border-color: #dc3545;
+            background: #fff8f8;
+        }
+
+        .error-message {
+            color: #dc3545;
+            font-size: 13px;
+            margin-top: 5px;
+            display: none;
+            font-weight: 500;
+        }
+
+        .error-message.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .password-requirements {
+            margin-top: 8px;
+            font-size: 13px;
+            color: #666;
+        }
+
+        .password-requirements span {
+            color: #28a745;
+            font-size: 12px;
+        }
+
+        .btn-cadastrar {
+            width: 100%;
+            padding: 16px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        .btn-cadastrar:hover:not(:disabled) {
+            background: #5a67d8;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-cadastrar:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .btn-cadastrar.loading {
+            position: relative;
+            color: transparent;
+        }
+
+        .btn-cadastrar.loading::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            top: 50%;
+            left: 50%;
+            margin-left: -10px;
+            margin-top: -10px;
+            border: 3px solid white;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .message {
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 500;
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: block;
+        }
+
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            display: block;
+        }
+
+        .message.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+            display: block;
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .login-link p {
+            color: #666;
+            font-size: 15px;
+        }
+
+        .login-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .login-link a:hover {
+            color: #5a67d8;
+            text-decoration: underline;
+        }
+
+        /* Estilo para mobile */
+        @media (max-width: 480px) {
+            .container {
+                padding: 25px;
+            }
+
+            .logo h1 {
+                font-size: 28px;
+            }
+
+            input {
+                padding: 12px;
+            }
+
+            .btn-cadastrar {
+                padding: 14px;
+            }
+        }
+
+        /* Loading overlay para redirecionamento */
+        .redirect-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .redirect-overlay.show {
+            display: flex;
+        }
+
+        .redirect-content {
+            text-align: center;
+            padding: 30px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .redirect-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        .redirect-content p {
+            color: #333;
+            font-size: 18px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <h1>S.O.S <span>FINANCE</span></h1>
+            <p>Crie sua conta para começar</p>
+        </div>
+
+        <!-- Mensagens de feedback -->
+        <div id="message" class="message"></div>
+
+        <!-- Formulário de Cadastro -->
+        <form id="cadastroForm">
+            <div class="form-group">
+                <label for="nome">Nome Completo *</label>
+                <input type="text" id="nome" placeholder="Digite seu nome completo" autocomplete="off">
+                <div id="nomeError" class="error-message"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="email">E-mail *</label>
+                <input type="email" id="email" placeholder="Digite seu melhor e-mail" autocomplete="off">
+                <div id="emailError" class="error-message"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="senha">Senha *</label>
+                <input type="password" id="senha" placeholder="Mínimo 6 caracteres">
+                <div id="senhaError" class="error-message"></div>
+                <div class="password-requirements">
+                    <span>🔒</span> A senha deve ter no mínimo 6 caracteres
+                </div>
+            </div>
+
+            <button type="submit" class="btn-cadastrar" id="btnCadastrar">Criar minha conta</button>
+        </form>
+
+        <div class="login-link">
+            <p>Já tem uma conta? <a href="#" onclick="irParaLogin(event)">Fazer login</a></p>
+        </div>
+    </div>
+
+    <!-- Overlay de redirecionamento -->
+    <div class="redirect-overlay" id="redirectOverlay">
+        <div class="redirect-content">
+            <div class="redirect-spinner"></div>
+            <p id="redirectMessage">Cadastro realizado!</p>
+            <p style="font-size: 14px; color: #666; margin-top: 10px;">Redirecionando para login...</p>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // S.O.S-FINANCE - Frontend JavaScript
+        // ============================================
+
+        // Elementos do DOM
+        const form = document.getElementById('cadastroForm');
+        const nomeInput = document.getElementById('nome');
+        const emailInput = document.getElementById('email');
+        const senhaInput = document.getElementById('senha');
+        const btnCadastrar = document.getElementById('btnCadastrar');
+        const messageDiv = document.getElementById('message');
+        const redirectOverlay = document.getElementById('redirectOverlay');
+        const redirectMessage = document.getElementById('redirectMessage');
+
+        // Elementos de erro
+        const nomeError = document.getElementById('nomeError');
+        const emailError = document.getElementById('emailError');
+        const senhaError = document.getElementById('senhaError');
+
+        // ========== FUNÇÕES UTILITÁRIAS ==========
+
+        // Mostrar mensagem
+        function mostrarMensagem(texto, tipo) {
+            messageDiv.textContent = texto;
+            messageDiv.className = `message ${tipo}`;
+            
+            // Auto-esconder após 5 segundos
+            setTimeout(() => {
+                messageDiv.className = 'message';
+            }, 5000);
+        }
+
+        // Mostrar erro em campo específico
+        function mostrarErroCampo(input, errorElement, mensagem) {
+            input.classList.add('error');
+            errorElement.textContent = mensagem;
+            errorElement.classList.add('show');
+        }
+
+        // Limpar erro de campo
+        function limparErroCampo(input, errorElement) {
+            input.classList.remove('error');
+            errorElement.classList.remove('show');
+        }
+
+        // Validar formato de email
+        function validarEmail(email) {
+            const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return regex.test(email);
+        }
+
+        // Mostrar loading no botão
+        function setLoading(loading) {
+            if (loading) {
+                btnCadastrar.disabled = true;
+                btnCadastrar.classList.add('loading');
+                btnCadastrar.textContent = '';
+            } else {
+                btnCadastrar.disabled = false;
+                btnCadastrar.classList.remove('loading');
+                btnCadastrar.textContent = 'Criar minha conta';
+            }
+        }
+
+        // Mostrar overlay de redirecionamento
+        function mostrarRedirecionamento(mensagem) {
+            redirectMessage.textContent = mensagem;
+            redirectOverlay.classList.add('show');
+        }
+
+        // ========== VALIDAÇÃO DO FORMULÁRIO ==========
+
+        function validarFormulario() {
+            let isValid = true;
+
+            // Pegar valores
+            const nome = nomeInput.value.trim();
+            const email = emailInput.value.trim();
+            const senha = senhaInput.value;
+
+            // Validar nome
+            if (!nome) {
+                mostrarErroCampo(nomeInput, nomeError, 'Nome é obrigatório');
+                isValid = false;
+            } else {
+                limparErroCampo(nomeInput, nomeError);
+            }
+
+            // Validar email
+            if (!email) {
+                mostrarErroCampo(emailInput, emailError, 'E-mail é obrigatório');
+                isValid = false;
+            } else if (!validarEmail(email)) {
+                mostrarErroCampo(emailInput, emailError, 'Formato de e-mail inválido');
+                isValid = false;
+            } else {
+                limparErroCampo(emailInput, emailError);
+            }
+
+            // Validar senha
+            if (!senha) {
+                mostrarErroCampo(senhaInput, senhaError, 'Senha é obrigatória');
+                isValid = false;
+            } else if (senha.length < 6) {
+                mostrarErroCampo(senhaInput, senhaError, 'Senha deve ter no mínimo 6 caracteres');
+                isValid = false;
+            } else {
+                limparErroCampo(senhaInput, senhaError);
+            }
+
+            return isValid;
+        }
+
+        // ========== ENVIAR CADASTRO ==========
+
+        async function enviarCadastro(dados) {
+            try {
+                const response = await fetch('/api/cadastrar', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(dados)
+                });
+
+                return await response.json();
+            } catch (error) {
+                console.error('Erro na requisição:', error);
+                return { 
+                    sucesso: false, 
+                    mensagem: 'Erro ao conectar com o servidor. Verifique se o backend está rodando.' 
+                };
+            }
+        }
+
+        // ========== EVENTO DE SUBMISSÃO ==========
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // Validar formulário
+            if (!validarFormulario()) {
+                return;
+            }
+
+            // Preparar dados
+            const dados = {
+                nome: nomeInput.value.trim(),
+                email: emailInput.value.trim(),
+                senha: senhaInput.value
+            };
+
+            // Mostrar loading
+            setLoading(true);
+
+            // Enviar para o backend
+            const resultado = await enviarCadastro(dados);
+
+            // Esconder loading
+            setLoading(false);
+
+            // Processar resultado
+            if (resultado.sucesso) {
+                // Mostrar mensagem de sucesso
+                mostrarMensagem('✅ ' + resultado.mensagem, 'success');
+                
+                // Limpar formulário
+                nomeInput.value = '';
+                emailInput.value = '';
+                senhaInput.value = '';
+                
+                // Mostrar overlay de redirecionamento
+                mostrarRedirecionamento('Cadastro realizado!');
+                
+                // Redirecionar após 2 segundos
+                setTimeout(() => {
+                    irParaLogin();
+                }, 2000);
+            } else {
+                // Mostrar mensagem de erro
+                mostrarMensagem('❌ ' + resultado.mensagem, 'error');
+                
+                // Se for erro de email, marcar campo
+                if (resultado.mensagem.includes('e-mail já está cadastrado')) {
+                    mostrarErroCampo(emailInput, emailError, resultado.mensagem);
+                }
+            }
+        });
+
+        // ========== VALIDAÇÃO EM TEMPO REAL ==========
+
+        nomeInput.addEventListener('input', () => {
+            if (nomeInput.value.trim()) {
+                limparErroCampo(nomeInput, nomeError);
+            }
+        });
+
+        emailInput.addEventListener('input', () => {
+            if (emailInput.value.trim() && validarEmail(emailInput.value.trim())) {
+                limparErroCampo(emailInput, emailError);
+            }
+        });
+
+        senhaInput.addEventListener('input', () => {
+            if (senhaInput.value.length >= 6) {
+                limparErroCampo(senhaInput, senhaError);
+            }
+        });
+
+        // ========== FUNÇÃO DE LOGIN (REDIRECIONAMENTO) ==========
+
+        function irParaLogin(event) {
+            if (event) {
+                event.preventDefault();
+            }
+            
+            // Simular redirecionamento para tela de login
+            mostrarRedirecionamento('Redirecionando...');
+            
+            setTimeout(() => {
+                alert('🔐 Tela de login - Em desenvolvimento!\n\nNa versão final, você seria redirecionado para a página de login.');
+                redirectOverlay.classList.remove('show');
+            }, 1500);
+        }
+
+        // ========== VERIFICAR CONEXÃO COM BACKEND ==========
+
+        async function verificarBackend() {
+            try {
+                const response = await fetch('/api/usuarios');
+                if (response.ok) {
+                    console.log('✅ Conectado ao backend com sucesso!');
+                }
+            } catch (error) {
+                mostrarMensagem('⚠️ Servidor não está rodando. Execute: node backend.js', 'info');
+                console.error('❌ Backend não está respondendo');
+            }
+        }
+
+        // Executar ao carregar a página
+        window.onload = verificarBackend;
+    </script>
+</body>
+</html>

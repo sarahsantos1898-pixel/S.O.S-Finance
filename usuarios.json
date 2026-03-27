@@ -4,7 +4,44 @@
     "nome": "sarah santos de souza",
     "email": "sarahsantos1898@gmail.com",
     "senha": "123456",
-    "dataCadastro": "15/03/2026, 10:24:27"
+    "dataCadastro": "15/03/2026, 10:24:27",
+    "transacoes": [
+      {
+        "id": 1774617164849,
+        "tipo": "entrada",
+        "descricao": "salario",
+        "valor": 2200,
+        "data": "2026-03-27T13:12:44.849Z"
+      },
+      {
+        "id": 1774617193934,
+        "tipo": "saida",
+        "descricao": "gasolina",
+        "valor": 50,
+        "data": "2026-03-27T13:13:13.934Z"
+      },
+      {
+        "id": 1774642964250,
+        "tipo": "saida",
+        "descricao": "mercado",
+        "valor": 1000,
+        "categoria": "geral",
+        "cartaoId": "1774641468829",
+        "data": "2026-03-27T20:22:44.250Z",
+        "mes": 2,
+        "ano": 2026
+      }
+    ],
+    "saldo": 1150,
+    "cartoes": [
+      {
+        "id": 1774641468829,
+        "banco": "Santander",
+        "limite": 2000,
+        "gasto": 1010,
+        "dataCriacao": "2026-03-27T19:57:48.829Z"
+      }
+    ]
   },
   {
     "id": 1773581132173,
@@ -33,5 +70,107 @@
     "email": "camilaleandra04@gmail.com",
     "senha": "123456",
     "dataCadastro": "20/03/2026, 20:45:57"
+  },
+  {
+    "id": 1774606695735,
+    "nome": "Adriel Marim",
+    "email": "bananinha@emailmuitobom.com.br",
+    "senha": "Adrieeeel",
+    "dataCadastro": "2026-03-27T10:18:15.735Z",
+    "status": "active"
+  },
+  {
+    "id": 1774608016999,
+    "nome": "Adriel Marim",
+    "email": "bananinha@emailmuitobom.com",
+    "senha": "adriel123456",
+    "dataCadastro": "2026-03-27T10:40:17.000Z",
+    "status": "ativo",
+    "transacoes": [
+      {
+        "id": 1774617610486,
+        "tipo": "entrada",
+        "descricao": "trafico de drogas",
+        "valor": 30000000,
+        "data": "2026-03-27T13:20:10.486Z"
+      },
+      {
+        "id": 1774617627525,
+        "tipo": "saida",
+        "descricao": "mesada pro presidente",
+        "valor": 1000000,
+        "data": "2026-03-27T13:20:27.525Z"
+      }
+    ],
+    "saldo": 29000000
+  },
+  {
+    "id": 1774608167625,
+    "nome": "Camila",
+    "email": "camilavieira2004@gmail.com.br",
+    "senha": "123456789",
+    "dataCadastro": "2026-03-27T10:42:47.625Z",
+    "status": "ativo",
+    "planejamentoMensal": {
+      "mes": 2,
+      "ano": 2026,
+      "metaEconomia": 300,
+      "previsaoGastos": 1500,
+      "categorias": []
+    },
+    "cartaoCredito": {
+      "banco": "Santander",
+      "limite": 2500,
+      "gasto": 120,
+      "faturaFechada": false
+    },
+    "transacoes": [
+      {
+        "id": 1774625467031,
+        "tipo": "entrada",
+        "descricao": "salario",
+        "valor": 2200,
+        "categoria": "geral",
+        "data": "2026-03-27T15:31:07.031Z",
+        "mes": 2,
+        "ano": 2026
+      },
+      {
+        "id": 1774625626572,
+        "tipo": "saida",
+        "descricao": "Bolo",
+        "valor": 20,
+        "categoria": "cartao",
+        "data": "2026-03-27T15:33:46.572Z",
+        "mes": 2,
+        "ano": 2026
+      }
+    ],
+    "saldo": 2180
+  },
+  {
+    "id": 1774617859287,
+    "nome": "mikael Oliveira",
+    "email": "mikael.oliveira.vinicius@hotmail.com",
+    "senha": "mikael123",
+    "dataCadastro": "2026-03-27T13:24:19.287Z",
+    "status": "ativo",
+    "transacoes": [
+      {
+        "id": 1774617928175,
+        "tipo": "entrada",
+        "descricao": "salario",
+        "valor": 1000,
+        "data": "2026-03-27T13:25:28.175Z"
+      },
+      {
+        "id": 1774617957225,
+        "tipo": "saida",
+        "descricao": "pão",
+        "valor": 1.99,
+        "data": "2026-03-27T13:25:57.225Z"
+      }
+    ],
+    "saldo": 998.01
   }
 ]

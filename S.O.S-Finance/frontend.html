@@ -2,592 +2,980 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>S.O.S-FINANCE - Cadastro</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>S.O.S-FINANCE | Gestão Financeira Inteligente</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg-primary: #0A0A0F;
+            --bg-secondary: #111118;
+            --bg-card: #15151F;
+            --bg-elevated: #1A1A26;
+            --primary: #00D9FF;
+            --primary-glow: rgba(0, 217, 255, 0.2);
+            --accent: #7B2CBF;
+            --text-primary: #FFFFFF;
+            --text-secondary: #A0A0B0;
+            --text-muted: #6C6C80;
+            --border: #2A2A35;
+            --success: #00E676;
+            --error: #FF4D4D;
+            --warning: #FFB74D;
+            --gradient-primary: linear-gradient(135deg, #00D9FF 0%, #7B2CBF 100%);
+            --gradient-success: linear-gradient(135deg, #00E676 0%, #00C853 100%);
+            --gradient-error: linear-gradient(135deg, #FF4D4D 0%, #D32F2F 100%);
+            --shadow-glow: 0 0 20px rgba(0, 217, 255, 0.15);
+            --blur-bg: blur(10px);
         }
-
-        body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg-primary); color: var(--text-primary); line-height: 1.5; overflow-x: hidden; }
+        .bg-animation { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; }
+        .bg-animation::before { content: ''; position: absolute; width: 200%; height: 200%; top: -50%; left: -50%; background: radial-gradient(circle at 30% 40%, rgba(0, 217, 255, 0.03) 0%, transparent 50%), radial-gradient(circle at 70% 60%, rgba(123, 44, 191, 0.03) 0%, transparent 50%); animation: bgPulse 15s ease-in-out infinite; }
+        @keyframes bgPulse { 0%,100%{transform:scale(1);opacity:0.5;} 50%{transform:scale(1.05);opacity:0.8;} }
+        
+        .header { position: sticky; top: 0; z-index: 100; backdrop-filter: var(--blur-bg); background: rgba(10, 10, 15, 0.95); border-bottom: 1px solid var(--border); }
+        .header-container { max-width: 1400px; margin: 0 auto; padding: 0.75rem 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+        .logo h1 { font-size: 1.5rem; font-weight: 600; background: var(--gradient-primary); -webkit-background-clip: text; background-clip: text; color: transparent; cursor: pointer; }
+        
+        .nav-links { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+        .nav-btn { padding: 0.6rem 1.5rem; background: transparent; border: 1px solid var(--border); border-radius: 2rem; font-weight: 500; font-size: 0.875rem; color: var(--text-secondary); cursor: pointer; transition: all 0.3s; }
+        .nav-btn:hover { border-color: var(--primary); color: var(--primary); transform: translateY(-2px); }
+        .nav-btn.active { background: var(--gradient-primary); border-color: transparent; color: var(--bg-primary); }
+        
+        .hero { text-align: center; padding: 4rem 2rem; }
+        .hero h2 { font-size: 3rem; font-weight: 700; background: var(--gradient-primary); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 1rem; }
+        .hero p { font-size: 1.125rem; color: var(--text-secondary); max-width: 600px; margin: 0 auto; }
+        .main-container { max-width: 1400px; margin: 0 auto; padding: 2rem; }
+        
+        .carousel-section { margin-bottom: 2.5rem; }
+        .carousel-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 1rem; }
+        .carousel-title { font-size: 0.875rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-muted); }
+        .carousel-indicators { display: flex; gap: 0.5rem; }
+        .indicator { width: 8px; height: 8px; border-radius: 50%; background: var(--border); cursor: pointer; transition: all 0.3s; }
+        .indicator.active { background: var(--primary); width: 24px; border-radius: 4px; }
+        .carousel-wrapper { display: flex; justify-content: center; width: 100%; }
+        .carousel { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; padding: 0.5rem 0.25rem 1.5rem; }
+        .carousel-card { flex: 0 1 240px; background: var(--bg-card); border-radius: 1rem; padding: 1.5rem; cursor: pointer; transition: all 0.4s; border: 1px solid var(--border); text-align: center; position: relative; overflow: hidden; }
+        .carousel-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--gradient-primary); transform: scaleX(0); transition: transform 0.3s ease; }
+        .carousel-card:hover::before { transform: scaleX(1); }
+        .carousel-card:hover { transform: translateY(-6px); border-color: var(--primary); box-shadow: var(--shadow-glow); }
+        .carousel-card.active { border-color: var(--primary); background: var(--bg-elevated); box-shadow: 0 0 24px var(--primary-glow); }
+        .card-number { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 1rem; }
+        .carousel-card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem; }
+        .carousel-card p { font-size: 0.7rem; color: var(--text-secondary); }
+        
+        .content-card { background: var(--bg-card); border-radius: 1.5rem; border: 1px solid var(--border); padding: 2rem; scroll-margin-top: 80px; }
+        .section { display: none; }
+        .section.active { display: block; animation: fadeInUp 0.4s ease; }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .section-title { font-size: 1.5rem; font-weight: 600; margin-bottom: 1.5rem; position: relative; display: inline-block; }
+        .section-title::after { content: ''; position: absolute; bottom: -8px; left: 0; width: 60%; height: 2px; background: var(--gradient-primary); border-radius: 2px; }
+        
+        .form-group { margin-bottom: 1.5rem; }
+        label { display: block; font-weight: 500; margin-bottom: 0.5rem; color: var(--text-secondary); font-size: 0.875rem; }
+        .password-wrapper { position: relative; display: flex; align-items: center; }
+        .password-wrapper input { flex: 1; padding-right: 3rem; }
+        .toggle-password { position: absolute; right: 1rem; background: transparent; border: none; color: var(--text-muted); cursor: pointer; }
+        input, select { width: 100%; padding: 0.875rem 1rem; background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 0.75rem; font-size: 0.9375rem; color: var(--text-primary); transition: all 0.3s; }
+        input:focus, select:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-glow); }
+        input.error { border-color: var(--error); }
+        .error-message { color: var(--error); font-size: 0.75rem; margin-top: 0.375rem; display: none; }
+        .error-message.show { display: block; }
+        
+        .btn-primary { width: 100%; padding: 0.875rem 1.5rem; background: var(--gradient-primary); border: none; border-radius: 0.75rem; font-weight: 600; color: var(--bg-primary); cursor: pointer; transition: all 0.3s; position: relative; overflow: hidden; }
+        .btn-primary:hover { transform: translateY(-2px); filter: brightness(1.05); }
+        .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+        .btn-primary.loading { color: transparent; }
+        .btn-primary.loading::after { content: ''; position: absolute; width: 1.25rem; height: 1.25rem; top: 50%; left: 50%; margin: -0.625rem 0 0 -0.625rem; border: 2px solid var(--bg-primary); border-top-color: transparent; border-radius: 50%; animation: spin 0.7s linear infinite; }
+        .btn-secondary { width: 100%; padding: 0.875rem 1.5rem; background: transparent; border: 1px solid var(--border); border-radius: 0.75rem; color: var(--text-secondary); cursor: pointer; margin-top: 0.5rem; }
+        .btn-secondary:hover { border-color: var(--primary); color: var(--primary); }
+        .btn-small { padding: 0.5rem 1rem; font-size: 0.75rem; width: auto; margin-top: 0; margin-right: 0.5rem; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        
+        .message { padding: 1rem; border-radius: 0.75rem; margin-bottom: 1.25rem; display: none; font-size: 0.875rem; }
+        .message.success { background: rgba(0, 230, 118, 0.1); border-left: 3px solid var(--success); color: var(--success); display: block; }
+        .message.error { background: rgba(255, 77, 77, 0.1); border-left: 3px solid var(--error); color: var(--error); display: block; }
+        .message.info { background: rgba(0, 217, 255, 0.1); border-left: 3px solid var(--primary); color: var(--primary); display: block; }
+        
+        .dashboard-container { display: none; }
+        .dashboard-container.active { display: block; animation: fadeInUp 0.4s ease; }
+        .dashboard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem; }
+        .btn-logout { padding: 0.5rem 1.25rem; background: rgba(255, 77, 77, 0.2); border: 1px solid var(--error); border-radius: 2rem; color: var(--error); cursor: pointer; }
+        .btn-logout:hover { background: var(--error); color: white; }
+        
+        .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem; }
+        .dashboard-card { background: var(--bg-elevated); border-radius: 1rem; padding: 1.5rem; border: 1px solid var(--border); }
+        .dashboard-card h3 { font-size: 1rem; color: var(--primary); margin-bottom: 1rem; border-left: 3px solid var(--primary); padding-left: 0.75rem; }
+        .balance-value { font-size: 1.75rem; font-weight: 700; background: var(--gradient-primary); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .balance-value.positive { background: var(--gradient-success); -webkit-background-clip: text; background-clip: text; }
+        .balance-value.negative { background: var(--gradient-error); -webkit-background-clip: text; background-clip: text; }
+        .progress-bar { background: var(--bg-card); border-radius: 1rem; height: 8px; margin: 0.75rem 0; overflow: hidden; }
+        .progress-fill { height: 100%; border-radius: 1rem; transition: width 0.3s; }
+        .progress-fill.success { background: var(--success); }
+        .progress-fill.warning { background: var(--warning); }
+        .progress-fill.danger { background: var(--error); }
+        .info-row { display: flex; justify-content: space-between; margin-top: 0.5rem; font-size: 0.75rem; color: var(--text-muted); }
+        
+        .cartoes-list { margin-top: 1rem; }
+        .cartao-item { background: var(--bg-card); border-radius: 0.75rem; padding: 0.75rem; margin-bottom: 0.75rem; border: 1px solid var(--border); }
+        .cartao-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
+        .cartao-nome { font-weight: 600; color: var(--primary); }
+        .btn-remove { background: transparent; border: none; color: var(--error); cursor: pointer; font-size: 0.75rem; padding: 0.25rem 0.5rem; border-radius: 0.5rem; }
+        .btn-remove:hover { background: rgba(255, 77, 77, 0.2); }
+        .btn-add-card { width: 100%; margin-top: 0.75rem; background: transparent; border: 1px dashed var(--border); padding: 0.75rem; border-radius: 0.75rem; color: var(--text-secondary); cursor: pointer; }
+        .btn-add-card:hover { border-color: var(--primary); color: var(--primary); }
+        
+        .transaction-type { display: inline-block; padding: 0.25rem 0.75rem; border-radius: 2rem; font-size: 0.7rem; font-weight: 500; }
+        .transaction-type.entrada { background: rgba(0, 230, 118, 0.2); color: var(--success); }
+        .transaction-type.saida { background: rgba(255, 77, 77, 0.2); color: var(--error); }
+        .transactions-table { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 0.75rem; text-align: left; border-bottom: 1px solid var(--border); }
+        th { color: var(--text-muted); font-size: 0.7rem; text-transform: uppercase; }
+        td { font-size: 0.8rem; color: var(--text-secondary); }
+        .btn-action { background: transparent; border: none; color: var(--primary); cursor: pointer; font-size: 0.7rem; padding: 0.25rem 0.5rem; border-radius: 0.25rem; margin-right: 0.25rem; }
+        .btn-action:hover { background: rgba(0, 217, 255, 0.2); }
+        .btn-delete { color: var(--error); }
+        .btn-delete:hover { background: rgba(255, 77, 77, 0.2); }
+        .empty-transactions { text-align: center; padding: 2rem; color: var(--text-muted); }
+        
+        .faq-list { display: flex; flex-direction: column; gap: 0.75rem; }
+        .faq-item { border: 1px solid var(--border); border-radius: 0.75rem; overflow: hidden; background: var(--bg-elevated); }
+        .faq-question { padding: 1rem 1.25rem; cursor: pointer; font-weight: 500; display: flex; justify-content: space-between; align-items: center; color: var(--text-secondary); }
+        .faq-question:hover { background: rgba(0, 217, 255, 0.05); }
+        .faq-answer { padding: 0 1.25rem; max-height: 0; overflow: hidden; transition: all 0.3s ease; color: var(--text-muted); font-size: 0.875rem; }
+        .faq-item.open .faq-answer { padding: 0 1.25rem 1rem 1.25rem; max-height: 300px; }
+        .faq-indicator { transition: transform 0.2s; color: var(--primary); }
+        .faq-item.open .faq-indicator { transform: rotate(180deg); }
+        
+        .benefits-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; margin-top: 1rem; }
+        .benefit-card { background: var(--bg-elevated); padding: 1.25rem; border-radius: 0.75rem; border: 1px solid var(--border); transition: all 0.3s; }
+        .benefit-card:hover { border-color: var(--primary); transform: translateY(-4px); }
+        .benefit-card h4 { font-size: 0.9rem; color: var(--primary); margin-bottom: 0.5rem; }
+        .benefit-card p { font-size: 0.7rem; color: var(--text-secondary); }
+        
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(5px); z-index: 1000; justify-content: center; align-items: center; }
+        .modal.active { display: flex; }
+        .modal-content { background: var(--bg-card); border-radius: 1.5rem; padding: 2rem; max-width: 500px; width: 90%; border: 1px solid var(--border); max-height: 90vh; overflow-y: auto; }
+        .modal-buttons { display: flex; gap: 1rem; margin-top: 1.5rem; }
+        
+        .footer { border-top: 1px solid var(--border); margin-top: 3rem; padding: 2rem 1.5rem; text-align: center; }
+        .footer p { color: var(--text-muted); font-size: 0.75rem; letter-spacing: 1px; }
+        
+        .chart-container { margin: 1rem 0; }
+        .chart-bar { display: flex; align-items: center; margin-bottom: 0.75rem; flex-wrap: wrap; gap: 0.5rem; }
+        .chart-label { width: 70px; font-size: 0.7rem; color: var(--text-secondary); }
+        .chart-bar-bg { flex: 1; height: 25px; background: var(--bg-card); border-radius: 0.5rem; overflow: hidden; }
+        .chart-bar-fill-entrada { height: 100%; background: var(--success); width: 0%; transition: width 0.5s; }
+        .chart-bar-fill-saida { height: 100%; background: var(--error); width: 0%; transition: width 0.5s; }
+        .chart-value { width: 80px; font-size: 0.7rem; text-align: right; }
+        
+        .meta-card { background: var(--gradient-primary); border-radius: 1rem; padding: 1rem; text-align: center; color: var(--bg-primary); margin-bottom: 1rem; }
+        .meta-card h4 { font-size: 1rem; margin-bottom: 0.5rem; }
+        .meta-card .meta-valor { font-size: 1.5rem; font-weight: bold; }
+        .dicas-investimento { margin: 0.75rem 0; font-size: 0.8rem; color: var(--text-secondary); background: var(--bg-card); padding: 0.75rem; border-radius: 0.75rem; }
+        
+        @media (max-width: 768px) {
+            .hero h2 { font-size: 2rem; }
+            .main-container { padding: 1rem; }
+            .content-card { padding: 1.25rem; }
+            .dashboard-grid { grid-template-columns: 1fr; }
+            .carousel-card { flex: 0 1 200px; padding: 1rem; }
+            .header-container { flex-direction: column; }
+            .chart-label { width: 55px; }
         }
-
-        .container {
-            background: white;
-            width: 100%;
-            max-width: 450px;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-            animation: slideIn 0.5s ease;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .logo {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .logo h1 {
-            font-size: 32px;
-            color: #333;
-            margin-bottom: 5px;
-        }
-
-        .logo span {
-            color: #667eea;
-            font-weight: bold;
-        }
-
-        .logo p {
-            color: #666;
-            font-size: 14px;
-        }
-
-        .form-group {
-            margin-bottom: 25px;
-            position: relative;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            color: #555;
-            font-weight: 500;
-            font-size: 14px;
-        }
-
-        input {
-            width: 100%;
-            padding: 15px;
-            border: 2px solid #e1e1e1;
-            border-radius: 12px;
-            font-size: 16px;
-            transition: all 0.3s;
-            background: #f8f9fa;
-        }
-
-        input:focus {
-            outline: none;
-            border-color: #667eea;
-            background: white;
-            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
-        }
-
-        input.error {
-            border-color: #dc3545;
-            background: #fff8f8;
-        }
-
-        .error-message {
-            color: #dc3545;
-            font-size: 13px;
-            margin-top: 5px;
-            display: none;
-            font-weight: 500;
-        }
-
-        .error-message.show {
-            display: block;
-            animation: fadeIn 0.3s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-5px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .password-requirements {
-            margin-top: 8px;
-            font-size: 13px;
-            color: #666;
-        }
-
-        .password-requirements span {
-            color: #28a745;
-            font-size: 12px;
-        }
-
-        .btn-cadastrar {
-            width: 100%;
-            padding: 16px;
-            background: #667eea;
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin-top: 10px;
-        }
-
-        .btn-cadastrar:hover:not(:disabled) {
-            background: #5a67d8;
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
-        }
-
-        .btn-cadastrar:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-            opacity: 0.7;
-        }
-
-        .btn-cadastrar.loading {
-            position: relative;
-            color: transparent;
-        }
-
-        .btn-cadastrar.loading::after {
-            content: '';
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            top: 50%;
-            left: 50%;
-            margin-left: -10px;
-            margin-top: -10px;
-            border: 3px solid white;
-            border-top-color: transparent;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        .message {
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            text-align: center;
-            font-weight: 500;
-            display: none;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .message.success {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-            display: block;
-        }
-
-        .message.error {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-            display: block;
-        }
-
-        .message.info {
-            background: #d1ecf1;
-            color: #0c5460;
-            border: 1px solid #bee5eb;
-            display: block;
-        }
-
-        .login-link {
-            text-align: center;
-            margin-top: 25px;
-            padding-top: 20px;
-            border-top: 1px solid #eee;
-        }
-
-        .login-link p {
-            color: #666;
-            font-size: 15px;
-        }
-
-        .login-link a {
-            color: #667eea;
-            text-decoration: none;
-            font-weight: 600;
-            cursor: pointer;
-            transition: color 0.3s;
-        }
-
-        .login-link a:hover {
-            color: #5a67d8;
-            text-decoration: underline;
-        }
-
-        /* Estilo para mobile */
-        @media (max-width: 480px) {
-            .container {
-                padding: 25px;
-            }
-
-            .logo h1 {
-                font-size: 28px;
-            }
-
-            input {
-                padding: 12px;
-            }
-
-            .btn-cadastrar {
-                padding: 14px;
-            }
-        }
-
-        /* Loading overlay para redirecionamento */
-        .redirect-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(255, 255, 255, 0.9);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .redirect-overlay.show {
-            display: flex;
-        }
-
-        .redirect-content {
-            text-align: center;
-            padding: 30px;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-        }
-
-        .redirect-spinner {
-            width: 50px;
-            height: 50px;
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #667eea;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
-        }
-
-        .redirect-content p {
-            color: #333;
-            font-size: 18px;
-            font-weight: 500;
+        @media (max-width: 1000px) {
+            .carousel { justify-content: flex-start; overflow-x: auto; flex-wrap: nowrap; }
+            .carousel-card { flex: 0 0 220px; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="logo">
-            <h1>S.O.S <span>FINANCE</span></h1>
-            <p>Crie sua conta para começar</p>
+    <div class="bg-animation"></div>
+    
+    <header class="header">
+        <div class="header-container">
+            <div class="logo" onclick="changeSection('acessar')"><h1>S.O.S FINANCE</h1></div>
+            <div class="nav-links">
+                <button class="nav-btn" data-section="acessar">ACESSAR CONTA</button>
+                <button class="nav-btn" data-section="cadastrar">CADASTRAR</button>
+                <button class="nav-btn" data-section="beneficios">BENEFÍCIOS</button>
+                <button class="nav-btn" data-section="suporte">SUPORTE</button>
+            </div>
         </div>
-
-        <!-- Mensagens de feedback -->
-        <div id="message" class="message"></div>
-
-        <!-- Formulário de Cadastro -->
-        <form id="cadastroForm">
-            <div class="form-group">
-                <label for="nome">Nome Completo *</label>
-                <input type="text" id="nome" placeholder="Digite seu nome completo" autocomplete="off">
-                <div id="nomeError" class="error-message"></div>
+    </header>
+    
+    <section class="hero" id="heroSection"><h2>Sistema Inteligente de Gestão Financeira</h2><p>Controle profissional com precisão, segurança e análises avançadas</p></section>
+    
+    <div class="main-container">
+        <div class="carousel-section" id="carouselSection">
+            <div class="carousel-header">
+                <div class="carousel-title">MÓDULOS DE NAVEGAÇÃO</div>
+                <div class="carousel-indicators" id="carouselIndicators"></div>
             </div>
-
-            <div class="form-group">
-                <label for="email">E-mail *</label>
-                <input type="email" id="email" placeholder="Digite seu melhor e-mail" autocomplete="off">
-                <div id="emailError" class="error-message"></div>
-            </div>
-
-            <div class="form-group">
-                <label for="senha">Senha *</label>
-                <input type="password" id="senha" placeholder="Mínimo 6 caracteres">
-                <div id="senhaError" class="error-message"></div>
-                <div class="password-requirements">
-                    <span>🔒</span> A senha deve ter no mínimo 6 caracteres
+            <div class="carousel-wrapper">
+                <div class="carousel" id="mainCarousel">
+                    <div class="carousel-card" data-section="acessar"><div class="card-number">01</div><h3>Acesso ao Sistema</h3><p>Portal de autenticação segura</p></div>
+                    <div class="carousel-card" data-section="cadastrar"><div class="card-number">02</div><h3>Criar Conta</h3><p>Registre seu perfil financeiro</p></div>
+                    <div class="carousel-card" data-section="beneficios"><div class="card-number">03</div><h3>Benefícios</h3><p>Vantagens exclusivas</p></div>
+                    <div class="carousel-card" data-section="suporte"><div class="card-number">04</div><h3>Central de Suporte</h3><p>Documentação e assistência</p></div>
                 </div>
             </div>
-
-            <button type="submit" class="btn-cadastrar" id="btnCadastrar">Criar minha conta</button>
-        </form>
-
-        <div class="login-link">
-            <p>Já tem uma conta? <a href="#" onclick="irParaLogin(event)">Fazer login</a></p>
         </div>
-    </div>
-
-    <!-- Overlay de redirecionamento -->
-    <div class="redirect-overlay" id="redirectOverlay">
-        <div class="redirect-content">
-            <div class="redirect-spinner"></div>
-            <p id="redirectMessage">Cadastro realizado!</p>
-            <p style="font-size: 14px; color: #666; margin-top: 10px;">Redirecionando para login...</p>
+        
+        <div class="content-card" id="contentCard">
+            <div id="acessar" class="section active">
+                <h2 class="section-title">Acessar Conta</h2>
+                <div id="loginMessage" class="message"></div>
+                <form id="loginForm">
+                    <div class="form-group"><label>E-mail</label><input type="email" id="loginEmail" placeholder="usuario@empresa.com.br"><div id="loginEmailError" class="error-message"></div></div>
+                    <div class="form-group"><label>Senha</label><div class="password-wrapper"><input type="password" id="loginSenha" placeholder="········"><button type="button" class="toggle-password" data-target="loginSenha">👁</button></div><div id="loginSenhaError" class="error-message"></div></div>
+                    <button type="submit" class="btn-primary" id="loginBtn">Entrar no Sistema</button>
+                    <button type="button" class="btn-secondary" id="forgotPasswordBtn">Esqueci minha senha</button>
+                </form>
+            </div>
+            <div id="cadastrar" class="section">
+                <h2 class="section-title">Criar Nova Conta</h2>
+                <div id="cadastroMessage" class="message"></div>
+                <form id="cadastroForm">
+                    <div class="form-group"><label>Nome Completo</label><input type="text" id="cadastroNome" placeholder="Digite seu nome completo"><div id="nomeError" class="error-message"></div></div>
+                    <div class="form-group"><label>E-mail</label><input type="email" id="cadastroEmail" placeholder="usuario@empresa.com.br"><div id="cadastroEmailError" class="error-message"></div></div>
+                    <div class="form-group"><label>Senha</label><div class="password-wrapper"><input type="password" id="cadastroSenha" placeholder="Mínimo 6 caracteres"><button type="button" class="toggle-password" data-target="cadastroSenha">👁</button></div><div id="senhaError" class="error-message"></div>
+                    <div style="font-size:0.7rem; color:var(--text-muted); margin-top:0.5rem;">✓ A senha deve conter no mínimo 6 caracteres</div></div>
+                    <button type="submit" class="btn-primary" id="cadastroBtn">Cadastrar</button>
+                </form>
+            </div>
+            <div id="beneficios" class="section">
+                <h2 class="section-title">Benefícios do Sistema</h2>
+                <div class="benefits-grid">
+                    <div class="benefit-card"><h4>Dashboard Analítico</h4><p>Visualização financeira completa com métricas em tempo real</p></div>
+                    <div class="benefit-card"><h4>Múltiplos Cartões</h4><p>Gerencie vários cartões de crédito com limites e gastos atualizados</p></div>
+                    <div class="benefit-card"><h4>Evolução Financeira</h4><p>Acompanhe gráficos de evolução de gastos e entradas</p></div>
+                    <div class="benefit-card"><h4>Despesas Fixas</h4><p>Controle contas como água, luz, internet e aluguel</p></div>
+                    <div class="benefit-card"><h4>Metas de Investimento</h4><p>Planeje seu futuro com metas de curto, médio ou longo prazo</p></div>
+                    <div class="benefit-card"><h4>Simulação de Aporte</h4><p>Descubra quanto guardar por mês/dia para bater sua meta mais rápido</p></div>
+                </div>
+            </div>
+            <div id="suporte" class="section">
+                <h2 class="section-title">Central de Suporte</h2>
+                <div class="faq-list">
+                    <div class="faq-item"><div class="faq-question"><span>O que é o S.O.S-FINANCE?</span><span class="faq-indicator">▼</span></div><div class="faq-answer">Sistema profissional de gestão financeira para organizar finanças pessoais e empresariais.</div></div>
+                    <div class="faq-item"><div class="faq-question"><span>Como criar uma conta?</span><span class="faq-indicator">▼</span></div><div class="faq-answer">Acesse CADASTRAR, informe nome, e-mail válido e senha com mínimo 6 caracteres.</div></div>
+                    <div class="faq-item"><div class="faq-question"><span>Como funciona a evolução financeira?</span><span class="faq-indicator">▼</span></div><div class="faq-answer">No dashboard, a seção "Evolução Mensal" mostra gráficos com seus ganhos e gastos por período.</div></div>
+                    <div class="faq-item"><div class="faq-question"><span>Como configurar despesas fixas?</span><span class="faq-indicator">▼</span></div><div class="faq-answer">No dashboard, clique em "Configurar Despesas Fixas" e informe os valores mensais.</div></div>
+                    <div class="faq-item"><div class="faq-question"><span>Como definir meta de investimento?</span><span class="faq-indicator">▼</span></div><div class="faq-answer">Acesse "Meta de Investimento" no dashboard e escolha entre curto, médio ou longo prazo.</div></div>
+                    <div class="faq-item"><div class="faq-question"><span>Como simular aportes mensais?</span><span class="faq-indicator">▼</span></div><div class="faq-answer">Após definir sua meta, informe quanto pode guardar por mês e clique em "Calcular tempo restante".</div></div>
+                </div>
+            </div>
         </div>
-    </div>
-
-    <script>
-        // ============================================
-        // S.O.S-FINANCE - Frontend JavaScript
-        // ============================================
-
-        // Elementos do DOM
-        const form = document.getElementById('cadastroForm');
-        const nomeInput = document.getElementById('nome');
-        const emailInput = document.getElementById('email');
-        const senhaInput = document.getElementById('senha');
-        const btnCadastrar = document.getElementById('btnCadastrar');
-        const messageDiv = document.getElementById('message');
-        const redirectOverlay = document.getElementById('redirectOverlay');
-        const redirectMessage = document.getElementById('redirectMessage');
-
-        // Elementos de erro
-        const nomeError = document.getElementById('nomeError');
-        const emailError = document.getElementById('emailError');
-        const senhaError = document.getElementById('senhaError');
-
-        // ========== FUNÇÕES UTILITÁRIAS ==========
-
-        // Mostrar mensagem
-        function mostrarMensagem(texto, tipo) {
-            messageDiv.textContent = texto;
-            messageDiv.className = `message ${tipo}`;
+        
+        <!-- DASHBOARD PRINCIPAL -->
+        <div class="dashboard-container" id="dashboardContainer">
+            <div class="dashboard-header"><h2 id="dashboardUserName">Dashboard Financeiro</h2><button class="btn-logout" id="logoutBtn">Sair</button></div>
             
-            // Auto-esconder após 5 segundos
-            setTimeout(() => {
-                messageDiv.className = 'message';
-            }, 5000);
+            <div class="dashboard-grid">
+                <div class="dashboard-card"><h3>Saldo Atual</h3><div class="balance-value" id="saldoAtual">R$ 0,00</div><div class="info-row"><span>Total Entradas</span><span id="totalEntradas">R$ 0,00</span></div><div class="info-row"><span>Total Saídas</span><span id="totalSaidas">R$ 0,00</span></div></div>
+                
+                <!-- Card Planejamento Mensal com sincronização de despesas fixas -->
+                <div class="dashboard-card">
+                    <h3>Planejamento Mensal</h3>
+                    <div class="info-row"><span>Meta de Economia</span><span id="metaEconomia">R$ 0,00</span></div>
+                    <div class="progress-bar"><div class="progress-fill success" id="economiaProgress" style="width:0%"></div></div>
+                    <div class="info-row"><span>Previsão de Gastos</span><span id="previsaoGastos">R$ 0,00</span></div>
+                    <div class="progress-bar"><div class="progress-fill warning" id="gastosProgress" style="width:0%"></div></div>
+                    
+                    <!-- Sincronização com despesas fixas -->
+                    <div style="margin-top: 1rem; padding-top: 0.5rem; border-top: 1px solid var(--border);">
+                        <div class="info-row"><span>📌 Despesas Fixas</span><span id="totalFixoCard">R$ 0,00</span></div>
+                        <div class="info-row"><span>📊 Comprometimento do orçamento</span><span id="percentualFixo">0%</span></div>
+                        <div class="progress-bar"><div class="progress-fill" id="comprometimentoBar" style="width:0%"></div></div>
+                        <div id="alertaFixo" style="font-size:0.7rem; margin-top:0.5rem; color: var(--warning); display: none;">⚠️ Atenção: Despesas fixas ultrapassam a previsão de gastos!</div>
+                    </div>
+                    
+                    <button class="btn-secondary btn-small" id="configPlanejamentoBtn" style="margin-top:0.75rem">Configurar Metas</button>
+                </div>
+                
+                <div class="dashboard-card">
+                    <h3>Despesas Fixas</h3>
+                    <div id="despesasFixasResumo" class="info-row"><span>Total Fixo</span><span id="totalFixo">R$ 0,00</span></div>
+                    <button class="btn-secondary btn-small" id="configDespesasFixasBtn" style="margin-top:0.75rem">Configurar Despesas</button>
+                </div>
+            </div>
+            
+            <!-- Múltiplos Cartões -->
+            <div class="dashboard-card" style="margin-bottom:1.5rem">
+                <h3>Cartões de Crédito</h3>
+                <div id="cartoesList" class="cartoes-list"></div>
+                <button class="btn-add-card" id="addCartaoBtn">+ Adicionar Cartão</button>
+            </div>
+            
+            <!-- Registrar Movimentação -->
+            <div class="dashboard-card" style="margin-bottom:1.5rem">
+                <h3>Registrar Movimentação</h3>
+                <form id="transactionForm">
+                    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(160px,1fr)); gap:1rem">
+                        <select id="tipoTransacao" required><option value="entrada">Entrada (Receita)</option><option value="saida">Saída (Despesa)</option></select>
+                        <select id="cartaoSelecionado" style="display:none"><option value="">Selecione o cartão</option></select>
+                        <input type="text" id="descricaoTransacao" placeholder="Descrição" required>
+                        <input type="number" id="valorTransacao" step="0.01" placeholder="Valor (R$)" required>
+                        <button type="submit" class="btn-primary" id="transacaoBtn">Registrar</button>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- Evolução Mensal -->
+            <div class="dashboard-card" style="margin-bottom:1.5rem">
+                <h3>Evolução Mensal - Ganhos vs Gastos</h3>
+                <div id="evolucaoMensal" class="chart-container"></div>
+            </div>
+            
+            <!-- Meta de Investimento com Dicas -->
+            <div class="dashboard-card" style="margin-bottom:1.5rem">
+                <h3>Meta de Investimento</h3>
+                <div id="metaInvestimentoDisplay"></div>
+                <div id="dicasInvestimento" class="dicas-investimento"></div>
+                <div class="form-group" style="margin-top: 0.5rem;">
+                    <label>Quanto você pode guardar por mês? (R$)</label>
+                    <input type="number" id="poupancaMensal" step="0.01" placeholder="Ex: 200">
+                    <button class="btn-secondary btn-small" id="calcularTempoBtn" style="margin-top: 0.5rem;">Calcular tempo restante</button>
+                </div>
+                <button class="btn-secondary btn-small" id="configMetaInvestimentoBtn">Definir Meta</button>
+            </div>
+            
+            <!-- Resumo por Mês -->
+            <div class="dashboard-card" style="margin-bottom:1.5rem">
+                <h3>Resumo por Mês</h3>
+                <div id="resumoMensal"></div>
+            </div>
+            
+            <!-- Histórico de Transações -->
+            <div class="dashboard-card">
+                <h3>Histórico de Transações</h3>
+                <div id="transactionsTable"><div class="empty-transactions">Nenhuma transação registrada</div></div>
+            </div>
+        </div>
+    </div>
+    
+    <footer class="footer"><p>S.O.S-FINANCE | SISTEMA INTELIGENTE DE GESTÃO FINANCEIRA</p><p style="margin-top: 0.5rem;">© 2026 — Gestão Financeira de Nível Empresarial</p></footer>
+    
+    <!-- Modais -->
+    <div class="modal" id="recoveryModal"><div class="modal-content"><h3>Recuperar Senha</h3><div id="recoveryMessage" class="message"></div><div id="stepEmail"><div class="form-group"><label>E-mail</label><input type="email" id="recoveryEmail"></div><button class="btn-primary" id="sendCodeBtn">Enviar código</button></div><div id="stepCode" style="display:none"><div class="form-group"><label>Código</label><input type="text" id="recoveryCode"></div><div class="form-group"><label>Nova senha</label><div class="password-wrapper"><input type="password" id="newPassword"><button type="button" class="toggle-password" data-target="newPassword">👁</button></div></div><div class="form-group"><label>Confirmar</label><div class="password-wrapper"><input type="password" id="confirmPassword"><button type="button" class="toggle-password" data-target="confirmPassword">👁</button></div></div><button class="btn-primary" id="resetPasswordBtn">Redefinir</button></div><div class="modal-buttons"><button class="btn-secondary" id="closeModalBtn">Fechar</button></div></div></div>
+    <div class="modal" id="cartaoModal"><div class="modal-content"><h3>Adicionar Cartão de Crédito</h3><div id="cartaoModalMessage" class="message"></div><div class="form-group"><label>Banco</label><input type="text" id="modalCartaoBanco" placeholder="Ex: Nubank, Itaú"></div><div class="form-group"><label>Limite Total (R$)</label><input type="number" id="modalCartaoLimite" step="0.01" placeholder="0,00"></div><div class="form-group"><label>Gasto Atual (R$)</label><input type="number" id="modalCartaoGasto" step="0.01" placeholder="0,00"></div><button class="btn-primary" id="salvarCartaoBtn">Adicionar</button><div class="modal-buttons"><button class="btn-secondary" id="closeCartaoModalBtn">Fechar</button></div></div></div>
+    <div class="modal" id="editarGastoModal"><div class="modal-content"><h3>Atualizar Gasto</h3><div id="editarGastoMessage" class="message"></div><div class="form-group"><label>Cartão</label><input type="text" id="editarCartaoNome" readonly></div><div class="form-group"><label>Novo Valor Gasto (R$)</label><input type="number" id="editarGastoValor" step="0.01"></div><button class="btn-primary" id="confirmarEditarGasto">Atualizar</button><div class="modal-buttons"><button class="btn-secondary" id="closeEditarGastoModalBtn">Fechar</button></div></div></div>
+    <div class="modal" id="editarTransacaoModal"><div class="modal-content"><h3>Editar Transação</h3><div id="editarTransacaoMessage" class="message"></div><div class="form-group"><label>Descrição</label><input type="text" id="editDescricao"></div><div class="form-group"><label>Valor (R$)</label><input type="number" id="editValor" step="0.01"></div><div class="form-group"><label>Tipo</label><select id="editTipo"><option value="entrada">Entrada</option><option value="saida">Saída</option></select></div><div class="form-group" id="editCartaoGroup" style="display:none"><label>Cartão</label><select id="editCartaoId"><option value="">Nenhum</option></select></div><button class="btn-primary" id="confirmarEditarTransacao">Salvar</button><div class="modal-buttons"><button class="btn-secondary" id="closeEditarTransacaoModalBtn">Fechar</button><button class="btn-secondary btn-delete" id="excluirTransacaoBtn" style="border-color:var(--error);color:var(--error)">Excluir</button></div></div></div>
+    <div class="modal" id="planejamentoModal"><div class="modal-content"><h3>Planejamento Mensal</h3><div id="planejamentoModalMessage" class="message"></div><div class="form-group"><label>Meta de Economia (R$)</label><input type="number" id="modalMetaEconomia" step="0.01"></div><div class="form-group"><label>Previsão de Gastos (R$)</label><input type="number" id="modalPrevisaoGastos" step="0.01"></div><button class="btn-primary" id="salvarPlanejamentoBtn">Salvar</button><div class="modal-buttons"><button class="btn-secondary" id="closePlanejamentoModalBtn">Fechar</button></div></div></div>
+    <div class="modal" id="despesasFixasModal"><div class="modal-content"><h3>Despesas Fixas</h3><div id="despesasFixasMessage" class="message"></div><div class="form-group"><label>Água (R$)</label><input type="number" id="despesaAgua" step="0.01"></div><div class="form-group"><label>Luz (R$)</label><input type="number" id="despesaLuz" step="0.01"></div><div class="form-group"><label>Internet (R$)</label><input type="number" id="despesaInternet" step="0.01"></div><div class="form-group"><label>Aluguel (R$)</label><input type="number" id="despesaAluguel" step="0.01"></div><div class="form-group"><label>Condomínio (R$)</label><input type="number" id="despesaCondominio" step="0.01"></div><div class="form-group"><label>Outras (R$)</label><input type="number" id="despesaOutras" step="0.01"></div><button class="btn-primary" id="salvarDespesasFixasBtn">Salvar</button><div class="modal-buttons"><button class="btn-secondary" id="closeDespesasFixasModalBtn">Fechar</button></div></div></div>
+    <div class="modal" id="metaInvestimentoModal"><div class="modal-content"><h3>Meta de Investimento</h3><div id="metaInvestimentoMessage" class="message"></div><div class="form-group"><label>Tipo</label><select id="metaTipo"><option value="">Selecione</option><option value="Curto Prazo">Curto Prazo (até 1 ano)</option><option value="Médio Prazo">Médio Prazo (1-3 anos)</option><option value="Longo Prazo">Longo Prazo (acima de 3 anos)</option></select></div><div class="form-group"><label>Valor Objetivo (R$)</label><input type="number" id="metaValor" step="0.01"></div><button class="btn-primary" id="salvarMetaInvestimentoBtn">Salvar</button><div class="modal-buttons"><button class="btn-secondary" id="closeMetaInvestimentoModalBtn">Fechar</button></div></div></div>
+    
+    <script>
+        const API_URL = '/api';
+        let usuarioAtual = null;
+        let cartaoEditandoId = null;
+        let transacaoEditandoId = null;
+
+        const contentCard = document.getElementById('contentCard');
+        const dashboardContainer = document.getElementById('dashboardContainer');
+        const carouselSection = document.getElementById('carouselSection');
+        const heroSection = document.getElementById('heroSection');
+        
+        function scrollToContent() { 
+            if(contentCard && contentCard.style.display !== 'none'){ 
+                const offset = 80; 
+                const pos = contentCard.getBoundingClientRect().top + window.pageYOffset - offset; 
+                window.scrollTo({top:pos, behavior:'smooth'}); 
+            } 
+        }
+        
+        function showDashboard() {
+            contentCard.style.display = 'none';
+            carouselSection.style.display = 'none';
+            heroSection.style.display = 'none';
+            dashboardContainer.classList.add('active');
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.style.display = 'none');
+        }
+        
+        function hideDashboard() {
+            contentCard.style.display = 'block';
+            carouselSection.style.display = 'block';
+            heroSection.style.display = 'block';
+            dashboardContainer.classList.remove('active');
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.style.display = 'block');
+            usuarioAtual = null;
+            localStorage.removeItem('usuarioLogado');
         }
 
-        // Mostrar erro em campo específico
-        function mostrarErroCampo(input, errorElement, mensagem) {
-            input.classList.add('error');
-            errorElement.textContent = mensagem;
-            errorElement.classList.add('show');
+        function showMessage(section, text, type){ 
+            const div = document.getElementById(`${section}Message`); 
+            if(div){ 
+                div.textContent = text; 
+                div.className = `message ${type}`; 
+                setTimeout(() => div.className = 'message', 5000); 
+            } 
         }
-
-        // Limpar erro de campo
-        function limparErroCampo(input, errorElement) {
-            input.classList.remove('error');
-            errorElement.classList.remove('show');
+        
+        function showError(input, errDiv, msg){ 
+            input.classList.add('error'); 
+            errDiv.textContent = msg; 
+            errDiv.classList.add('show'); 
         }
-
-        // Validar formato de email
-        function validarEmail(email) {
-            const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return regex.test(email);
+        
+        function clearError(input, errDiv){ 
+            input.classList.remove('error'); 
+            errDiv.classList.remove('show'); 
         }
-
-        // Mostrar loading no botão
-        function setLoading(loading) {
-            if (loading) {
-                btnCadastrar.disabled = true;
-                btnCadastrar.classList.add('loading');
-                btnCadastrar.textContent = '';
+        
+        function validateEmail(email){ 
+            return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email); 
+        }
+        
+        function setLoading(btn, isLoading, text){ 
+            if(isLoading){ 
+                btn.disabled = true; 
+                btn.classList.add('loading'); 
+                btn.textContent = ''; 
+            } else { 
+                btn.disabled = false; 
+                btn.classList.remove('loading'); 
+                btn.textContent = text; 
+            } 
+        }
+        
+        // Função para atualizar o indicador de comprometimento do orçamento
+        function atualizarComprometimento(previsaoGastos, totalFixo) {
+            const percentual = previsaoGastos > 0 ? (totalFixo / previsaoGastos) * 100 : 0;
+            const percentualExibido = Math.min(percentual, 100);
+            document.getElementById('percentualFixo').innerHTML = `${percentualExibido.toFixed(1)}%`;
+            const barra = document.getElementById('comprometimentoBar');
+            barra.style.width = `${percentualExibido}%`;
+            if (percentual >= 90) {
+                barra.className = 'progress-fill danger';
+            } else if (percentual >= 70) {
+                barra.className = 'progress-fill warning';
             } else {
-                btnCadastrar.disabled = false;
-                btnCadastrar.classList.remove('loading');
-                btnCadastrar.textContent = 'Criar minha conta';
+                barra.className = 'progress-fill success';
             }
-        }
-
-        // Mostrar overlay de redirecionamento
-        function mostrarRedirecionamento(mensagem) {
-            redirectMessage.textContent = mensagem;
-            redirectOverlay.classList.add('show');
-        }
-
-        // ========== VALIDAÇÃO DO FORMULÁRIO ==========
-
-        function validarFormulario() {
-            let isValid = true;
-
-            // Pegar valores
-            const nome = nomeInput.value.trim();
-            const email = emailInput.value.trim();
-            const senha = senhaInput.value;
-
-            // Validar nome
-            if (!nome) {
-                mostrarErroCampo(nomeInput, nomeError, 'Nome é obrigatório');
-                isValid = false;
+            
+            const alertaDiv = document.getElementById('alertaFixo');
+            if (totalFixo > previsaoGastos) {
+                alertaDiv.style.display = 'block';
+                alertaDiv.innerHTML = '⚠️ Atenção: Despesas fixas ultrapassam a previsão de gastos! Revise seu orçamento.';
+            } else if (percentual > 80) {
+                alertaDiv.style.display = 'block';
+                alertaDiv.innerHTML = '⚠️ Cuidado: Mais de 80% do seu orçamento está comprometido com despesas fixas.';
             } else {
-                limparErroCampo(nomeInput, nomeError);
-            }
-
-            // Validar email
-            if (!email) {
-                mostrarErroCampo(emailInput, emailError, 'E-mail é obrigatório');
-                isValid = false;
-            } else if (!validarEmail(email)) {
-                mostrarErroCampo(emailInput, emailError, 'Formato de e-mail inválido');
-                isValid = false;
-            } else {
-                limparErroCampo(emailInput, emailError);
-            }
-
-            // Validar senha
-            if (!senha) {
-                mostrarErroCampo(senhaInput, senhaError, 'Senha é obrigatória');
-                isValid = false;
-            } else if (senha.length < 6) {
-                mostrarErroCampo(senhaInput, senhaError, 'Senha deve ter no mínimo 6 caracteres');
-                isValid = false;
-            } else {
-                limparErroCampo(senhaInput, senhaError);
-            }
-
-            return isValid;
-        }
-
-        // ========== ENVIAR CADASTRO ==========
-
-        async function enviarCadastro(dados) {
-            try {
-                const response = await fetch('/api/cadastrar', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(dados)
-                });
-
-                return await response.json();
-            } catch (error) {
-                console.error('Erro na requisição:', error);
-                return { 
-                    sucesso: false, 
-                    mensagem: 'Erro ao conectar com o servidor. Verifique se o backend está rodando.' 
-                };
+                alertaDiv.style.display = 'none';
             }
         }
+        
+        async function atualizarDashboard(){
+            if(!usuarioAtual) return;
+            try{
+                const resp = await fetch(`${API_URL}/usuario/${encodeURIComponent(usuarioAtual.email)}`);
+                const data = await resp.json();
+                if(data.sucesso){
+                    const u = data.usuario;
+                    const transacoes = u.transacoes || [];
+                    let entradas = 0, saidas = 0;
+                    transacoes.forEach(t => { if(t.tipo === 'entrada') entradas += t.valor; else saidas += t.valor; });
+                    const saldo = entradas - saidas;
+                    document.getElementById('saldoAtual').innerHTML = `R$ ${saldo.toFixed(2).replace('.',',')}`;
+                    document.getElementById('totalEntradas').innerHTML = `R$ ${entradas.toFixed(2).replace('.',',')}`;
+                    document.getElementById('totalSaidas').innerHTML = `R$ ${saidas.toFixed(2).replace('.',',')}`;
+                    
+                    const planej = u.planejamentoMensal || {metaEconomia:0, previsaoGastos:0};
+                    document.getElementById('metaEconomia').innerHTML = `R$ ${(planej.metaEconomia || 0).toFixed(2).replace('.',',')}`;
+                    document.getElementById('previsaoGastos').innerHTML = `R$ ${(planej.previsaoGastos || 0).toFixed(2).replace('.',',')}`;
+                    const percEconomia = planej.metaEconomia > 0 ? ((saldo / planej.metaEconomia) * 100) : 0;
+                    document.getElementById('economiaProgress').style.width = `${Math.min(Math.max(percEconomia,0),100)}%`;
+                    const percGastos = planej.previsaoGastos > 0 ? ((saidas / planej.previsaoGastos) * 100) : 0;
+                    document.getElementById('gastosProgress').style.width = `${Math.min(percGastos,100)}%`;
 
-        // ========== EVENTO DE SUBMISSÃO ==========
+                    const despesas = u.despesasFixas || {agua:0, luz:0, internet:0, aluguel:0, condominio:0, outras:0};
+                    const totalFixo = despesas.agua + despesas.luz + despesas.internet + despesas.aluguel + despesas.condominio + despesas.outras;
+                    document.getElementById('totalFixo').innerHTML = `R$ ${totalFixo.toFixed(2).replace('.',',')}`;
+                    document.getElementById('totalFixoCard').innerHTML = `R$ ${totalFixo.toFixed(2).replace('.',',')}`;
+                    
+                    // Sincronizar com planejamento
+                    atualizarComprometimento(planej.previsaoGastos || 0, totalFixo);
 
-        form.addEventListener('submit', async (e) => {
+                    const cartoes = u.cartoes || [];
+                    const cartoesDiv = document.getElementById('cartoesList');
+                    if(cartoes.length === 0){
+                        cartoesDiv.innerHTML = '<div class="empty-transactions" style="padding:1rem">Nenhum cartão cadastrado</div>';
+                    } else {
+                        cartoesDiv.innerHTML = cartoes.map(c => {
+                            const disponivel = c.limite - c.gasto;
+                            const perc = c.limite > 0 ? ((c.gasto / c.limite) * 100) : 0;
+                            return `<div class="cartao-item"><div class="cartao-header"><span class="cartao-nome">${c.banco}</span><button class="btn-remove" onclick="removerCartao(${c.id})">Remover</button></div>
+                            <div class="info-row"><span>Limite</span><span>R$ ${c.limite.toFixed(2).replace('.',',')}</span></div>
+                            <div class="info-row"><span>Gasto Atual</span><span style="cursor:pointer;color:var(--primary)" onclick="editarGastoCartao(${c.id},'${c.banco}',${c.gasto})">R$ ${c.gasto.toFixed(2).replace('.',',')} ✎</span></div>
+                            <div class="info-row"><span>Disponível</span><span>R$ ${disponivel.toFixed(2).replace('.',',')}</span></div>
+                            <div class="progress-bar"><div class="progress-fill ${perc>80?'danger':perc>50?'warning':'success'}" style="width:${Math.min(perc,100)}%"></div></div></div>`;
+                        }).join('');
+                    }
+
+                    // Evolução Mensal
+                    const evolucao = u.evolucaoMensal || [];
+                    const evolucaoDiv = document.getElementById('evolucaoMensal');
+                    if(evolucao.length === 0){
+                        evolucaoDiv.innerHTML = '<div class="empty-transactions">Nenhum dado de evolução disponível</div>';
+                    } else {
+                        const maxValor = Math.max(...evolucao.map(e => Math.max(e.entradas, e.saidas)), 1);
+                        evolucaoDiv.innerHTML = evolucao.map(e => `
+                            <div class="chart-bar">
+                                <div class="chart-label">${e.periodo}</div>
+                                <div class="chart-bar-bg"><div class="chart-bar-fill-entrada" style="width: ${(e.entradas / maxValor) * 100}%"></div></div>
+                                <div class="chart-value" style="color: var(--success)">+R$ ${e.entradas.toFixed(2).replace('.',',')}</div>
+                            </div>
+                            <div class="chart-bar">
+                                <div class="chart-label"></div>
+                                <div class="chart-bar-bg"><div class="chart-bar-fill-saida" style="width: ${(e.saidas / maxValor) * 100}%"></div></div>
+                                <div class="chart-value" style="color: var(--error)">-R$ ${e.saidas.toFixed(2).replace('.',',')}</div>
+                            </div>
+                        `).join('');
+                    }
+
+                    // Meta Investimento e Dicas
+                    const meta = u.metaInvestimento || {};
+                    const metaDiv = document.getElementById('metaInvestimentoDisplay');
+                    const dicasDiv = document.getElementById('dicasInvestimento');
+                    if(meta.tipo && meta.valor){
+                        let meses = 0;
+                        if(meta.tipo === 'Curto Prazo') meses = 12;
+                        else if(meta.tipo === 'Médio Prazo') meses = 36;
+                        else if(meta.tipo === 'Longo Prazo') meses = 60;
+                        const porMes = meta.valor / meses;
+                        const porDia = porMes / 30;
+                        metaDiv.innerHTML = `<div class="meta-card"><h4>${meta.tipo}</h4><div class="meta-valor">R$ ${meta.valor.toFixed(2).replace('.',',')}</div><div class="info-row">Definida em ${new Date(meta.dataCriacao).toLocaleDateString('pt-BR')}</div></div>`;
+                        dicasDiv.innerHTML = `
+                            <div class="info-row"><span>💡 Para atingir sua meta em ${meses} meses:</span><span>R$ ${porMes.toFixed(2).replace('.',',')}/mês</span></div>
+                            <div class="info-row"><span>📅 Equivalente por dia:</span><span>R$ ${porDia.toFixed(2).replace('.',',')}/dia</span></div>
+                        `;
+                    } else {
+                        metaDiv.innerHTML = '<div class="empty-transactions">Nenhuma meta definida</div>';
+                        dicasDiv.innerHTML = '';
+                    }
+
+                    const resumoDiv = document.getElementById('resumoMensal');
+                    if(u.resumoMensal && u.resumoMensal.length > 0){
+                        resumoDiv.innerHTML = `<div class="transactions-table"><table><thead><tr><th>Período</th><th>Entradas</th><th>Saídas</th><th>Saldo</th></tr></thead><tbody>${u.resumoMensal.map(r => `<tr><td>${r.periodo}</td><td class="transaction-value positive">R$ ${r.entradas.toFixed(2).replace('.',',')}</td><td class="transaction-value negative">R$ ${r.saidas.toFixed(2).replace('.',',')}</td><td class="transaction-value ${r.saldo>=0?'positive':'negative'}">R$ ${r.saldo.toFixed(2).replace('.',',')}</td></tr>`).join('')}</tbody></tr></div>`;
+                    } else {
+                        resumoDiv.innerHTML = '<div class="empty-transactions">Nenhum dado mensal disponível</div>';
+                    }
+
+                    const transDiv = document.getElementById('transactionsTable');
+                    if(transacoes.length === 0){ 
+                        transDiv.innerHTML = '<div class="empty-transactions">Nenhuma transação registrada</div>';
+                    } else { 
+                        const sorted = [...transacoes].reverse(); 
+                        transDiv.innerHTML = `<div class="transactions-table"><table><thead><tr><th>Data</th><th>Descrição</th><th>Tipo</th><th>Valor</th>${cartoes.length>0?'<th>Cartão</th>':''}<th>Ações</th></tr></thead><tbody>${sorted.map(t => `<tr><td>${new Date(t.data).toLocaleDateString('pt-BR')}</td><td>${t.descricao}</td><td class="transaction-value ${t.tipo==='entrada'?'positive':'negative'}">R$ ${t.valor.toFixed(2).replace('.',',')}</td>${cartoes.length>0?`<td>${t.cartaoId ? (cartoes.find(c=>c.id===t.cartaoId)?.banco || '-') : '-'}</td>`:''}<td><button class="btn-action" onclick="editarTransacao(${t.id})">Editar</button></td></tr>`).join('')}</tbody></table></div>`; 
+                    }
+                    document.getElementById('dashboardUserName').innerHTML = `Olá, ${u.nome}`;
+                    
+                    const cartaoSelect = document.getElementById('cartaoSelecionado');
+                    if(cartoes.length > 0){
+                        cartaoSelect.style.display = 'block';
+                        cartaoSelect.innerHTML = `<option value="">Selecionar cartão (opcional)</option>${cartoes.map(c => `<option value="${c.id}">${c.banco} - Disponível: R$ ${(c.limite - c.gasto).toFixed(2).replace('.',',')}</option>`).join('')}`;
+                    } else {
+                        cartaoSelect.style.display = 'none';
+                    }
+                }
+            } catch(e){ console.error(e); }
+        }
+
+        async function removerCartao(cartaoId){
+            if(!confirm('Remover este cartão?')) return;
+            try{
+                const resp = await fetch(`${API_URL}/remover-cartao`, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({email:usuarioAtual.email, cartaoId})});
+                const data = await resp.json();
+                if(data.sucesso){ await atualizarDashboard(); }
+                else alert(data.mensagem);
+            } catch(e){ alert('Erro ao remover'); }
+        }
+
+        async function editarGastoCartao(cartaoId, banco, gastoAtual){
+            cartaoEditandoId = cartaoId;
+            document.getElementById('editarCartaoNome').value = banco;
+            document.getElementById('editarGastoValor').value = gastoAtual;
+            document.getElementById('editarGastoModal').classList.add('active');
+        }
+
+        async function editarTransacao(transacaoId){
+            transacaoEditandoId = transacaoId;
+            const transacoes = usuarioAtual?.transacoes || [];
+            const transacao = transacoes.find(t => t.id === transacaoId);
+            if(transacao){
+                document.getElementById('editDescricao').value = transacao.descricao;
+                document.getElementById('editValor').value = transacao.valor;
+                document.getElementById('editTipo').value = transacao.tipo;
+                const cartoes = usuarioAtual?.cartoes || [];
+                const cartaoSelect = document.getElementById('editCartaoId');
+                cartaoSelect.innerHTML = `<option value="">Nenhum</option>${cartoes.map(c => `<option value="${c.id}" ${transacao.cartaoId === c.id ? 'selected' : ''}>${c.banco}</option>`).join('')}`;
+                document.getElementById('editCartaoGroup').style.display = transacao.tipo === 'saida' ? 'block' : 'none';
+                document.getElementById('editarTransacaoModal').classList.add('active');
+            }
+        }
+
+        document.getElementById('editTipo').addEventListener('change', function(){
+            document.getElementById('editCartaoGroup').style.display = this.value === 'saida' ? 'block' : 'none';
+        });
+
+        document.getElementById('confirmarEditarTransacao').addEventListener('click', async () => {
+            const novaDesc = document.getElementById('editDescricao').value.trim();
+            const novoValor = parseFloat(document.getElementById('editValor').value);
+            const novoTipo = document.getElementById('editTipo').value;
+            const novoCartaoId = document.getElementById('editCartaoId').value;
+            if(!novaDesc || isNaN(novoValor) || novoValor <= 0){ alert('Preencha corretamente'); return; }
+            setLoading(document.getElementById('confirmarEditarTransacao'), true, 'Salvando');
+            try{
+                const resp = await fetch(`${API_URL}/editar-transacao`, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({email:usuarioAtual.email, transacaoId:transacaoEditandoId, descricao:novaDesc, valor:novoValor, tipo:novoTipo, cartaoId:novoCartaoId || null})});
+                const data = await resp.json();
+                if(data.sucesso){
+                    usuarioAtual.transacoes = data.transacoes;
+                    usuarioAtual.cartoes = data.cartoes;
+                    usuarioAtual.saldo = data.saldo;
+                    await atualizarDashboard();
+                    document.getElementById('editarTransacaoModal').classList.remove('active');
+                } else { alert(data.mensagem); }
+            } catch(e){ alert('Erro'); }
+            setLoading(document.getElementById('confirmarEditarTransacao'), false, 'Salvar');
+        });
+
+        document.getElementById('excluirTransacaoBtn').addEventListener('click', async () => {
+            if(!confirm('Excluir esta transação?')) return;
+            setLoading(document.getElementById('excluirTransacaoBtn'), true, 'Excluindo');
+            try{
+                const resp = await fetch(`${API_URL}/excluir-transacao`, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({email:usuarioAtual.email, transacaoId:transacaoEditandoId})});
+                const data = await resp.json();
+                if(data.sucesso){
+                    usuarioAtual.transacoes = data.transacoes;
+                    usuarioAtual.cartoes = data.cartoes;
+                    usuarioAtual.saldo = data.saldo;
+                    await atualizarDashboard();
+                    document.getElementById('editarTransacaoModal').classList.remove('active');
+                } else { alert(data.mensagem); }
+            } catch(e){ alert('Erro'); }
+            setLoading(document.getElementById('excluirTransacaoBtn'), false, 'Excluir');
+        });
+
+        document.getElementById('closeEditarTransacaoModalBtn').addEventListener('click', () => document.getElementById('editarTransacaoModal').classList.remove('active'));
+        document.getElementById('closeEditarGastoModalBtn').addEventListener('click', () => document.getElementById('editarGastoModal').classList.remove('active'));
+        
+        document.getElementById('confirmarEditarGasto').addEventListener('click', async () => {
+            const novoGasto = parseFloat(document.getElementById('editarGastoValor').value) || 0;
+            if(novoGasto < 0){ alert('Valor inválido'); return; }
+            try{
+                const resp = await fetch(`${API_URL}/atualizar-gasto-cartao`, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({email:usuarioAtual.email, cartaoId:cartaoEditandoId, novoGasto})});
+                const data = await resp.json();
+                if(data.sucesso){ await atualizarDashboard(); document.getElementById('editarGastoModal').classList.remove('active'); }
+                else alert(data.mensagem);
+            } catch(e){ alert('Erro'); }
+        });
+
+        async function adicionarCartao(banco, limite, gasto){
+            try{
+                const resp = await fetch(`${API_URL}/adicionar-cartao`, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({email:usuarioAtual.email, banco, limite, gastoInicial:gasto})});
+                const data = await resp.json();
+                if(data.sucesso){ await atualizarDashboard(); return true; }
+                else{ alert(data.mensagem); return false; }
+            } catch(e){ alert('Erro'); return false; }
+        }
+
+        // Login
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
+            const email = document.getElementById('loginEmail').value.trim();
+            const senha = document.getElementById('loginSenha').value;
+            clearError(document.getElementById('loginEmail'), document.getElementById('loginEmailError'));
+            clearError(document.getElementById('loginSenha'), document.getElementById('loginSenhaError'));
+            if(!email || !senha){ showMessage('acessar', 'Preencha todos os campos', 'error'); return; }
+            const btn = document.getElementById('loginBtn');
+            setLoading(btn, true, 'Entrar');
+            try{
+                const resp = await fetch(`${API_URL}/login`, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({email, senha})});
+                const data = await resp.json();
+                if(data.sucesso){
+                    usuarioAtual = data.usuario;
+                    localStorage.setItem('usuarioLogado', JSON.stringify(usuarioAtual));
+                    showMessage('acessar', data.mensagem, 'success');
+                    setTimeout(() => { showDashboard(); atualizarDashboard(); setLoading(btn, false, 'Entrar'); }, 1000);
+                } else {
+                    if(data.tipo === 'email') showError(document.getElementById('loginEmail'), document.getElementById('loginEmailError'), data.mensagem);
+                    else if(data.tipo === 'senha') showError(document.getElementById('loginSenha'), document.getElementById('loginSenhaError'), data.mensagem);
+                    else showMessage('acessar', data.mensagem, 'error');
+                    setLoading(btn, false, 'Entrar');
+                }
+            } catch(e){ showMessage('acessar', 'Erro de conexão', 'error'); setLoading(btn, false, 'Entrar'); }
+        });
 
-            // Validar formulário
-            if (!validarFormulario()) {
+        // Cadastro
+        document.getElementById('cadastroForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const nome = document.getElementById('cadastroNome').value.trim();
+            const email = document.getElementById('cadastroEmail').value.trim();
+            const senha = document.getElementById('cadastroSenha').value;
+            if(!nome || !email || !senha){ showMessage('cadastro', 'Preencha todos os campos', 'error'); return; }
+            if(senha.length < 6){ showMessage('cadastro', 'Senha deve ter mínimo 6 caracteres', 'error'); return; }
+            if(!validateEmail(email)){ showMessage('cadastro', 'E-mail inválido', 'error'); return; }
+            const btn = document.getElementById('cadastroBtn');
+            setLoading(btn, true, 'Cadastrar');
+            try{
+                const resp = await fetch(`${API_URL}/cadastrar`, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({nome, email, senha})});
+                const data = await resp.json();
+                if(data.sucesso){ showMessage('cadastro', data.mensagem, 'success'); document.getElementById('cadastroForm').reset(); setTimeout(() => { changeSection('acessar'); setLoading(btn, false, 'Cadastrar'); }, 2000); }
+                else{ showMessage('cadastro', data.mensagem, 'error'); setLoading(btn, false, 'Cadastrar'); }
+            } catch(e){ showMessage('cadastro', 'Erro de conexão', 'error'); setLoading(btn, false, 'Cadastrar'); }
+        });
+
+        // Transação
+        document.getElementById('transactionForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if(!usuarioAtual) return;
+            const tipo = document.getElementById('tipoTransacao').value;
+            const desc = document.getElementById('descricaoTransacao').value.trim();
+            const val = parseFloat(document.getElementById('valorTransacao').value);
+            const cartaoId = document.getElementById('cartaoSelecionado').value;
+            if(!desc || isNaN(val) || val <= 0){ alert('Preencha corretamente'); return; }
+            const btn = document.getElementById('transacaoBtn');
+            setLoading(btn, true, 'Registrar');
+            try{
+                const resp = await fetch(`${API_URL}/transacao`, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({email:usuarioAtual.email, tipo, descricao:desc, valor:val, cartaoId:cartaoId || null})});
+                const data = await resp.json();
+                if(data.sucesso){ document.getElementById('descricaoTransacao').value = ''; document.getElementById('valorTransacao').value = ''; await atualizarDashboard(); }
+                else{ alert(data.mensagem); }
+            } catch(e){ alert('Erro'); }
+            setLoading(btn, false, 'Registrar');
+        });
+
+        // Modais
+        const cartaoModal = document.getElementById('cartaoModal');
+        document.getElementById('addCartaoBtn').addEventListener('click', () => { 
+            document.getElementById('modalCartaoBanco').value = ''; 
+            document.getElementById('modalCartaoLimite').value = ''; 
+            document.getElementById('modalCartaoGasto').value = ''; 
+            cartaoModal.classList.add('active'); 
+        });
+        document.getElementById('closeCartaoModalBtn').addEventListener('click', () => cartaoModal.classList.remove('active'));
+        document.getElementById('salvarCartaoBtn').addEventListener('click', async () => {
+            const banco = document.getElementById('modalCartaoBanco').value.trim();
+            const limite = parseFloat(document.getElementById('modalCartaoLimite').value) || 0;
+            const gasto = parseFloat(document.getElementById('modalCartaoGasto').value) || 0;
+            if(!banco){ alert('Informe o banco'); return; }
+            if(await adicionarCartao(banco, limite, gasto)) cartaoModal.classList.remove('active');
+        });
+
+        const planejamentoModal = document.getElementById('planejamentoModal');
+        document.getElementById('configPlanejamentoBtn').addEventListener('click', () => {
+            document.getElementById('modalMetaEconomia').value = usuarioAtual?.planejamentoMensal?.metaEconomia || '';
+            document.getElementById('modalPrevisaoGastos').value = usuarioAtual?.planejamentoMensal?.previsaoGastos || '';
+            planejamentoModal.classList.add('active');
+        });
+        document.getElementById('closePlanejamentoModalBtn').addEventListener('click', () => planejamentoModal.classList.remove('active'));
+        document.getElementById('salvarPlanejamentoBtn').addEventListener('click', async () => {
+            const meta = parseFloat(document.getElementById('modalMetaEconomia').value) || 0;
+            const previsao = parseFloat(document.getElementById('modalPrevisaoGastos').value) || 0;
+            try{
+                const resp = await fetch(`${API_URL}/planejamento`, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({email:usuarioAtual.email, metaEconomia:meta, previsaoGastos:previsao})});
+                const data = await resp.json();
+                if(data.sucesso){ await atualizarDashboard(); planejamentoModal.classList.remove('active'); }
+                else alert(data.mensagem);
+            } catch(e){ alert('Erro'); }
+        });
+
+        const despesasModal = document.getElementById('despesasFixasModal');
+        document.getElementById('configDespesasFixasBtn').addEventListener('click', () => {
+            const despesas = usuarioAtual?.despesasFixas || {};
+            document.getElementById('despesaAgua').value = despesas.agua || 0;
+            document.getElementById('despesaLuz').value = despesas.luz || 0;
+            document.getElementById('despesaInternet').value = despesas.internet || 0;
+            document.getElementById('despesaAluguel').value = despesas.aluguel || 0;
+            document.getElementById('despesaCondominio').value = despesas.condominio || 0;
+            document.getElementById('despesaOutras').value = despesas.outras || 0;
+            despesasModal.classList.add('active');
+        });
+        document.getElementById('closeDespesasFixasModalBtn').addEventListener('click', () => despesasModal.classList.remove('active'));
+        document.getElementById('salvarDespesasFixasBtn').addEventListener('click', async () => {
+            const despesas = {
+                agua: parseFloat(document.getElementById('despesaAgua').value) || 0,
+                luz: parseFloat(document.getElementById('despesaLuz').value) || 0,
+                internet: parseFloat(document.getElementById('despesaInternet').value) || 0,
+                aluguel: parseFloat(document.getElementById('despesaAluguel').value) || 0,
+                condominio: parseFloat(document.getElementById('despesaCondominio').value) || 0,
+                outras: parseFloat(document.getElementById('despesaOutras').value) || 0
+            };
+            try{
+                const resp = await fetch(`${API_URL}/despesas-fixas`, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({email:usuarioAtual.email, ...despesas})});
+                const data = await resp.json();
+                if(data.sucesso){ usuarioAtual.despesasFixas = data.despesasFixas; await atualizarDashboard(); despesasModal.classList.remove('active'); }
+                else alert(data.mensagem);
+            } catch(e){ alert('Erro'); }
+        });
+
+        // Meta Investimento
+        const metaModal = document.getElementById('metaInvestimentoModal');
+        document.getElementById('configMetaInvestimentoBtn').addEventListener('click', () => {
+            const meta = usuarioAtual?.metaInvestimento || {};
+            document.getElementById('metaTipo').value = meta.tipo || '';
+            document.getElementById('metaValor').value = meta.valor || '';
+            metaModal.classList.add('active');
+        });
+        document.getElementById('closeMetaInvestimentoModalBtn').addEventListener('click', () => metaModal.classList.remove('active'));
+        document.getElementById('salvarMetaInvestimentoBtn').addEventListener('click', async () => {
+            const tipo = document.getElementById('metaTipo').value;
+            const valor = parseFloat(document.getElementById('metaValor').value) || 0;
+            if(!tipo){ alert('Selecione o tipo'); return; }
+            if(valor <= 0){ alert('Valor inválido'); return; }
+            try{
+                const resp = await fetch(`${API_URL}/meta-investimento`, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({email:usuarioAtual.email, tipo, valor, prazo:tipo})});
+                const data = await resp.json();
+                if(data.sucesso){ usuarioAtual.metaInvestimento = data.metaInvestimento; await atualizarDashboard(); metaModal.classList.remove('active'); }
+                else alert(data.mensagem);
+            } catch(e){ alert('Erro'); }
+        });
+
+        // Calcular tempo restante
+        document.getElementById('calcularTempoBtn').addEventListener('click', () => {
+            const poupanca = parseFloat(document.getElementById('poupancaMensal').value);
+            const metaValor = usuarioAtual?.metaInvestimento?.valor;
+            const tipo = usuarioAtual?.metaInvestimento?.tipo;
+            if(!metaValor || !tipo || isNaN(poupanca) || poupanca <= 0) {
+                alert('Defina uma meta primeiro e informe um valor mensal válido.');
                 return;
             }
+            let mesesAlvo = 0;
+            if(tipo === 'Curto Prazo') mesesAlvo = 12;
+            else if(tipo === 'Médio Prazo') mesesAlvo = 36;
+            else if(tipo === 'Longo Prazo') mesesAlvo = 60;
+            const mesesNecessarios = Math.ceil(metaValor / poupanca);
+            const anos = Math.floor(mesesNecessarios / 12);
+            const mesesRestantes = mesesNecessarios % 12;
+            let texto = `Com R$ ${poupanca.toFixed(2).replace('.',',')} por mês, você atingirá sua meta em aproximadamente ${mesesNecessarios} meses`;
+            if(anos > 0) texto += ` (${anos} ano${anos>1?'s':''}${mesesRestantes>0?` e ${mesesRestantes} mes${mesesRestantes>1?'es':''}`:''})`;
+            if(mesesNecessarios <= mesesAlvo) texto += `, dentro do prazo! 🎉`;
+            else texto += `, ultrapassando o prazo estimado de ${mesesAlvo} meses. Tente guardar mais por mês.`;
+            alert(texto);
+        });
 
-            // Preparar dados
-            const dados = {
-                nome: nomeInput.value.trim(),
-                email: emailInput.value.trim(),
-                senha: senhaInput.value
-            };
+        // Recuperação de senha
+        const modal = document.getElementById('recoveryModal');
+        document.getElementById('forgotPasswordBtn').addEventListener('click', () => { modal.classList.add('active'); document.getElementById('stepEmail').style.display = 'block'; document.getElementById('stepCode').style.display = 'none'; });
+        document.getElementById('closeModalBtn').addEventListener('click', () => modal.classList.remove('active'));
+        document.getElementById('sendCodeBtn').addEventListener('click', async () => {
+            const email = document.getElementById('recoveryEmail').value.trim();
+            if(!email){ document.getElementById('recoveryMessage').textContent = 'Informe o e-mail'; document.getElementById('recoveryMessage').className = 'message error'; return; }
+            setLoading(document.getElementById('sendCodeBtn'), true, 'Enviar');
+            try{
+                const resp = await fetch(`${API_URL}/recuperar-senha`, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({email})});
+                const data = await resp.json();
+                if(data.sucesso){ document.getElementById('stepEmail').style.display = 'none'; document.getElementById('stepCode').style.display = 'block'; document.getElementById('recoveryMessage').textContent = data.mensagem; document.getElementById('recoveryMessage').className = 'message success'; }
+                else{ document.getElementById('recoveryMessage').textContent = data.mensagem; document.getElementById('recoveryMessage').className = 'message error'; }
+            } catch(e){ document.getElementById('recoveryMessage').textContent = 'Erro ao enviar'; document.getElementById('recoveryMessage').className = 'message error'; }
+            setLoading(document.getElementById('sendCodeBtn'), false, 'Enviar');
+        });
+        document.getElementById('resetPasswordBtn').addEventListener('click', async () => {
+            const email = document.getElementById('recoveryEmail').value.trim();
+            const codigo = document.getElementById('recoveryCode').value.trim();
+            const nova = document.getElementById('newPassword').value;
+            const conf = document.getElementById('confirmPassword').value;
+            if(!codigo || !nova){ document.getElementById('recoveryMessage').textContent = 'Preencha todos os campos'; document.getElementById('recoveryMessage').className = 'message error'; return; }
+            if(nova.length < 6){ document.getElementById('recoveryMessage').textContent = 'Senha deve ter mínimo 6 caracteres'; document.getElementById('recoveryMessage').className = 'message error'; return; }
+            if(nova !== conf){ document.getElementById('recoveryMessage').textContent = 'As senhas não conferem'; document.getElementById('recoveryMessage').className = 'message error'; return; }
+            setLoading(document.getElementById('resetPasswordBtn'), true, 'Redefinir');
+            try{
+                const resp = await fetch(`${API_URL}/redefinir-senha`, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({email, codigo, novaSenha:nova})});
+                const data = await resp.json();
+                if(data.sucesso){ document.getElementById('recoveryMessage').textContent = data.mensagem; document.getElementById('recoveryMessage').className = 'message success'; setTimeout(() => modal.classList.remove('active'), 2000); }
+                else{ document.getElementById('recoveryMessage').textContent = data.mensagem; document.getElementById('recoveryMessage').className = 'message error'; }
+            } catch(e){ document.getElementById('recoveryMessage').textContent = 'Erro ao redefinir'; document.getElementById('recoveryMessage').className = 'message error'; }
+            setLoading(document.getElementById('resetPasswordBtn'), false, 'Redefinir');
+        });
 
-            // Mostrar loading
-            setLoading(true);
+        document.getElementById('logoutBtn').addEventListener('click', () => { hideDashboard(); changeSection('acessar'); });
 
-            // Enviar para o backend
-            const resultado = await enviarCadastro(dados);
-
-            // Esconder loading
-            setLoading(false);
-
-            // Processar resultado
-            if (resultado.sucesso) {
-                // Mostrar mensagem de sucesso
-                mostrarMensagem('✅ ' + resultado.mensagem, 'success');
-                
-                // Limpar formulário
-                nomeInput.value = '';
-                emailInput.value = '';
-                senhaInput.value = '';
-                
-                // Mostrar overlay de redirecionamento
-                mostrarRedirecionamento('Cadastro realizado!');
-                
-                // Redirecionar após 2 segundos
-                setTimeout(() => {
-                    irParaLogin();
-                }, 2000);
-            } else {
-                // Mostrar mensagem de erro
-                mostrarMensagem('❌ ' + resultado.mensagem, 'error');
-                
-                // Se for erro de email, marcar campo
-                if (resultado.mensagem.includes('e-mail já está cadastrado')) {
-                    mostrarErroCampo(emailInput, emailError, resultado.mensagem);
+        // Navegação e Carrossel
+        function updateCarousel(activeSection){
+            const cards = document.querySelectorAll('.carousel-card');
+            const indicators = document.querySelectorAll('.indicator');
+            cards.forEach((c, i) => {
+                if(c.dataset.section === activeSection){
+                    c.classList.add('active');
+                    c.scrollIntoView({behavior:'smooth', block:'nearest', inline:'center'});
+                } else {
+                    c.classList.remove('active');
                 }
-            }
-        });
-
-        // ========== VALIDAÇÃO EM TEMPO REAL ==========
-
-        nomeInput.addEventListener('input', () => {
-            if (nomeInput.value.trim()) {
-                limparErroCampo(nomeInput, nomeError);
-            }
-        });
-
-        emailInput.addEventListener('input', () => {
-            if (emailInput.value.trim() && validarEmail(emailInput.value.trim())) {
-                limparErroCampo(emailInput, emailError);
-            }
-        });
-
-        senhaInput.addEventListener('input', () => {
-            if (senhaInput.value.length >= 6) {
-                limparErroCampo(senhaInput, senhaError);
-            }
-        });
-
-        // ========== FUNÇÃO DE LOGIN (REDIRECIONAMENTO) ==========
-
-        function irParaLogin(event) {
-            if (event) {
-                event.preventDefault();
-            }
-            
-            // Simular redirecionamento para tela de login
-            mostrarRedirecionamento('Redirecionando...');
-            
-            setTimeout(() => {
-                alert('🔐 Tela de login - Em desenvolvimento!\n\nNa versão final, você seria redirecionado para a página de login.');
-                redirectOverlay.classList.remove('show');
-            }, 1500);
+            });
+            indicators.forEach((ind, i) => {
+                ind.classList.toggle('active', cards[i]?.dataset.section === activeSection);
+            });
+        }
+        
+        function changeSection(sectionId, shouldScroll = true){
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            const sec = document.getElementById(sectionId);
+            if(sec) sec.classList.add('active');
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.section === sectionId);
+            });
+            updateCarousel(sectionId);
+            if(shouldScroll) setTimeout(() => scrollToContent(), 100);
+        }
+        
+        function setupCarousel(){
+            document.querySelectorAll('.carousel-card').forEach(c => c.addEventListener('click', () => {
+                const s = c.dataset.section;
+                if(s) changeSection(s, true);
+            }));
+        }
+        
+        function setupNavigation(){
+            document.querySelectorAll('.nav-btn').forEach(b => b.addEventListener('click', () => {
+                const s = b.dataset.section;
+                if(s) changeSection(s, true);
+            }));
+        }
+        
+        function setupFAQ(){
+            document.querySelectorAll('.faq-question').forEach(q => q.addEventListener('click', () => q.parentElement.classList.toggle('open')));
+        }
+        
+        function setupPasswordToggles(){
+            document.querySelectorAll('.toggle-password').forEach(b => b.addEventListener('click', () => {
+                const inp = document.getElementById(b.dataset.target);
+                if(inp){
+                    const t = inp.type === 'password' ? 'text' : 'password';
+                    inp.type = t;
+                    b.textContent = t === 'password' ? '👁' : '🙈';
+                }
+            }));
         }
 
-        // ========== VERIFICAR CONEXÃO COM BACKEND ==========
-
-        async function verificarBackend() {
-            try {
-                const response = await fetch('/api/usuarios');
-                if (response.ok) {
-                    console.log('✅ Conectado ao backend com sucesso!');
-                }
-            } catch (error) {
-                mostrarMensagem('⚠️ Servidor não está rodando. Execute: node backend.js', 'info');
-                console.error('❌ Backend não está respondendo');
-            }
+        function verificarSessao(){ 
+            const saved = localStorage.getItem('usuarioLogado'); 
+            if(saved){ 
+                usuarioAtual = JSON.parse(saved); 
+                showDashboard(); 
+                atualizarDashboard(); 
+            } 
         }
-
-        // Executar ao carregar a página
-        window.onload = verificarBackend;
+        
+        function init(){
+            setupCarousel(); 
+            setupNavigation(); 
+            setupFAQ(); 
+            setupPasswordToggles(); 
+            verificarSessao(); 
+            updateCarousel('acessar');
+            // Validação em tempo real
+            document.getElementById('cadastroNome').addEventListener('input', () => clearError(document.getElementById('cadastroNome'), document.getElementById('nomeError')));
+            document.getElementById('cadastroEmail').addEventListener('input', () => clearError(document.getElementById('cadastroEmail'), document.getElementById('cadastroEmailError')));
+            document.getElementById('cadastroSenha').addEventListener('input', () => clearError(document.getElementById('cadastroSenha'), document.getElementById('senhaError')));
+            document.getElementById('loginEmail').addEventListener('input', () => clearError(document.getElementById('loginEmail'), document.getElementById('loginEmailError')));
+            document.getElementById('loginSenha').addEventListener('input', () => clearError(document.getElementById('loginSenha'), document.getElementById('loginSenhaError')));
+            window.removerCartao = removerCartao;
+            window.editarGastoCartao = editarGastoCartao;
+            window.editarTransacao = editarTransacao;
+        }
+        init();
     </script>
 </body>
 </html>

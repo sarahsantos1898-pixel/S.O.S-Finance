@@ -1,16 +1,13 @@
 {
-  "name": "s.o.s-finance",
+  "name": "sos-finance",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Sistema profissional de gestão financeira",
+  "main": "backend.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node backend.js",
+    "dev": "node backend.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
   "dependencies": {
-    "express": "^5.2.1"
+    "express": "^4.18.2"
   }
 }

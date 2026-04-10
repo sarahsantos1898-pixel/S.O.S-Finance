@@ -4,7 +4,73 @@
     "nome": "sarah santos de souza",
     "email": "sarahsantos1898@gmail.com",
     "senha": "123456",
-    "dataCadastro": "15/03/2026, 10:24:27"
+    "dataCadastro": "15/03/2026, 10:24:27",
+    "despesasFixas": {
+      "agua": 100,
+      "luz": 100,
+      "internet": 50,
+      "aluguel": 700,
+      "condominio": 0,
+      "outras": 0
+    },
+    "transacoes": [
+      {
+        "id": 1775850930427,
+        "tipo": "entrada",
+        "descricao": "salario",
+        "valor": 2200,
+        "cartaoId": null,
+        "data": "2026-04-10T19:55:30.427Z",
+        "mes": 3,
+        "ano": 2026
+      },
+      {
+        "id": 1775855511273,
+        "tipo": "saida",
+        "descricao": "mercado",
+        "valor": 500,
+        "cartaoId": null,
+        "data": "2026-04-10T21:11:51.273Z",
+        "mes": 3,
+        "ano": 2026
+      },
+      {
+        "id": 1775855542400,
+        "tipo": "saida",
+        "descricao": "parque",
+        "valor": 50,
+        "cartaoId": "1775850986983",
+        "data": "2026-04-10T21:12:22.400Z",
+        "mes": 3,
+        "ano": 2026
+      },
+      {
+        "id": 1775857901027,
+        "tipo": "saida",
+        "descricao": "loló",
+        "valor": 150,
+        "cartaoId": "1775850986983",
+        "data": "2026-04-10T21:51:41.027Z",
+        "mes": 3,
+        "ano": 2026
+      }
+    ],
+    "saldo": 1500,
+    "cartoes": [
+      {
+        "id": 1775850986983,
+        "banco": "nubank",
+        "limite": 200,
+        "gasto": 200,
+        "dataCriacao": "2026-04-10T19:56:26.983Z"
+      }
+    ],
+    "metaInvestimento": {
+      "tipo": "Curto Prazo",
+      "valor": 500,
+      "prazo": "Curto Prazo",
+      "dataCriacao": "2026-04-10T19:59:21.563Z"
+    }
   },
   {
     "id": 1773581132173,

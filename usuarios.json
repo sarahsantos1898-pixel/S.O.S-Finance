@@ -53,6 +53,26 @@
         "data": "2026-04-10T21:51:41.027Z",
         "mes": 3,
         "ano": 2026
+      },
+      {
+        "id": 1778284900395,
+        "tipo": "entrada",
+        "descricao": "mercado",
+        "valor": 500,
+        "cartaoId": null,
+        "data": "2026-05-09T00:01:40.395Z",
+        "mes": 4,
+        "ano": 2026
+      },
+      {
+        "id": 1778284911284,
+        "tipo": "saida",
+        "descricao": "mercado",
+        "valor": 500,
+        "cartaoId": null,
+        "data": "2026-05-09T00:01:51.284Z",
+        "mes": 4,
+        "ano": 2026
       }
     ],
     "saldo": 1500,
@@ -66,10 +86,10 @@
       }
     ],
     "metaInvestimento": {
-      "tipo": "Curto Prazo",
-      "valor": 500,
-      "prazo": "Curto Prazo",
-      "dataCriacao": "2026-04-10T19:59:21.563Z"
+      "tipo": "Médio Prazo",
+      "valor": 10000,
+      "prazo": "Médio Prazo",
+      "dataCriacao": "2026-04-10T23:49:11.666Z"
     }
   },
   {
@@ -92,5 +112,36 @@
     "email": "io7@gmail.com",
     "senha": "123456",
     "dataCadastro": "15/03/2026, 13:02:34"
+  },
+  {
+    "id": 1775859732766,
+    "nome": "maria",
+    "email": "maria@gmail.com",
+    "senha": "123456",
+    "dataCadastro": "2026-04-10T22:22:12.766Z",
+    "status": "ativo",
+    "transacoes": [],
+    "saldo": 0,
+    "cartoes": [],
+    "planejamentoMensal": {
+      "mes": 3,
+      "ano": 2026,
+      "metaEconomia": 0,
+      "previsaoGastos": 0
+    },
+    "despesasFixas": {
+      "agua": 0,
+      "luz": 0,
+      "internet": 0,
+      "aluguel": 0,
+      "condominio": 0,
+      "outras": 0
+    },
+    "metaInvestimento": {
+      "tipo": "",
+      "valor": 0,
+      "prazo": "",
+      "dataCriacao": "2026-04-10T22:22:12.766Z"
+    }
   }
 ]

@@ -1,0 +1,14 @@
+{
+  "name": "sos-finance-server",
+  "version": "1.0.0",
+  "description": "Backend Express + servidor estático do frontend S.O.S-FINANCE",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "express": "^4.19.2"
+  }
+}
